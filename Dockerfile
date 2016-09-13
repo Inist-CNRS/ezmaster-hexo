@@ -1,6 +1,6 @@
 FROM node:4.4.0
 
-RUN npm install hexo-cli -g -q && hexo init /blog/ && cd /blog/ && npm install -q
+RUN npm install hexo-cli@1.0.2 -g -q && hexo init /blog/ && cd /blog/ && npm install -q
 
 COPY ./docker-entrypoint.sh /
 WORKDIR /blog
