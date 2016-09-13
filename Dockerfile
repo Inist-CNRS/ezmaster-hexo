@@ -14,9 +14,8 @@ RUN echo '{ \
 }' > /etc/ezmaster.json
 
 # # ezmaster need json config
-# RUN npm install yaml2json -g -q
-# RUN yaml2json /blog/_config.yml > /blog/_config.json
-RUN echo "{}" > /blog/_config.json
+RUN npm install json2yaml js-yaml -g -q
+RUN js-yaml /blog/_config.yml > /blog/_config.json
 
 EXPOSE 4000
 ENTRYPOINT /docker-entrypoint.sh
