@@ -1,17 +1,22 @@
 FROM node:4.4.0
 
-RUN npm install hexo-cli -g && hexo init /blog/ && cd /blog/ && npm install
+RUN npm install hexo-cli -g -q && hexo init /blog/ && cd /blog/ && npm install -q
 
+COPY ./docker-entrypoint.sh /
 WORKDIR /blog
-VOLUME /blog
 
 # ezmasterization of hexo
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
   "httpPort": 4000, \
-  "configPath": "/blog/_config.yml", \
-  "dataPath":   "/blog/source/_posts" \
+  "configPath": "/blog/_config.json", \
+  "dataPath":   "/blog/source/_posts/" \
 }' > /etc/ezmaster.json
 
+# # ezmaster need json config
+# RUN npm install yaml2json -g -q
+# RUN yaml2json /blog/_config.yml > /blog/_config.json
+RUN echo "{}" > /blog/_config.json
+
 EXPOSE 4000
-CMD hexo server
+ENTRYPOINT /docker-entrypoint.sh
